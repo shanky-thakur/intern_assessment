@@ -1,0 +1,88 @@
+-------------------------------------------- server health -----------------------------------------
+
+curl --request GET \
+  --url http://localhost:3000/ \
+  --header 'Accept: */*' \
+  --header 'Accept-Encoding: gzip, deflate, br' \
+  --header 'Connection: keep-alive' \
+  --header 'User-Agent: EchoapiRuntime/1.1.0'
+
+--------------------------------------------- add User ----------------------------------------------
+
+curl --request POST \
+  --url http://localhost:3000/user/register \
+  --header 'Accept: */*' \
+  --header 'Accept-Encoding: gzip, deflate, br' \
+  --header 'Connection: keep-alive' \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: EchoapiRuntime/1.1.0' \
+  --data '{
+  "username": "testuser",
+  "password": "test123"
+}'
+
+---------------------------------------------- login user -----------------------------------------------
+
+curl --request POST \
+  --url http://localhost:3000/user/login \
+  --header 'Accept: */*' \
+  --header 'Accept-Encoding: gzip, deflate, br' \
+  --header 'Connection: keep-alive' \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: EchoapiRuntime/1.1.0' \
+  --data '{
+  "username": "testuser",
+  "password": "test123"
+}'
+
+----------------------------------------------- get all items ---------------------------------------------
+
+curl --request GET \
+  --url http://localhost:3000/user/items \
+  --header 'Accept: */*' \
+  --header 'Accept-Encoding: gzip, deflate, br' \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTQwMWZiOWVhMzY4ZjUzNjg4M2E3NGQiLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNzY1ODEwMjMzLCJleHAiOjE3NjU4MTIwMzN9.meEWAQIBwIQisYiTXHqYf0oQkMm3u9e3CO7SeuTBbCw' \
+  --header 'Connection: keep-alive' \
+  --header 'User-Agent: EchoapiRuntime/1.1.0'
+
+----------------------------------------------- add item --------------------------------------------------
+
+curl --request POST \
+  --url http://localhost:3000/user/items \
+  --header 'Accept: */*' \
+  --header 'Accept-Encoding: gzip, deflate, br' \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTQwMWZiOWVhMzY4ZjUzNjg4M2E3NGQiLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNzY1ODEwMjMzLCJleHAiOjE3NjU4MTIwMzN9.meEWAQIBwIQisYiTXHqYf0oQkMm3u9e3CO7SeuTBbCw' \
+  --header 'Connection: keep-alive' \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: EchoapiRuntime/1.1.0' \
+  --data '{
+  "name": "Laptop",
+  "company" : "HP",
+  "price": 45000,
+  "description": "Gaming Laptop"
+}'
+
+----------------------------------------------- update item -----------------------------------------------
+
+curl --request PUT \
+  --url http://localhost:3000/user/items/69402173ea368f536883a751 \
+  --header 'Accept: */*' \
+  --header 'Accept-Encoding: gzip, deflate, br' \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTQwMWZiOWVhMzY4ZjUzNjg4M2E3NGQiLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNzY1ODEwMjMzLCJleHAiOjE3NjU4MTIwMzN9.meEWAQIBwIQisYiTXHqYf0oQkMm3u9e3CO7SeuTBbCw' \
+  --header 'Connection: keep-alive' \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: EchoapiRuntime/1.1.0' \
+  --data '{
+  "price": 47000,
+  "description": "Updated Gaming Laptop"
+}'
+
+----------------------------------------------- delete item -----------------------------------------------
+
+curl --request DELETE \
+  --url http://localhost:3000/user/items/6940221dea368f536883a756 \
+  --header 'Accept: */*' \
+  --header 'Accept-Encoding: gzip, deflate, br' \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTQwMWZiOWVhMzY4ZjUzNjg4M2E3NGQiLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNzY1ODEwMjMzLCJleHAiOjE3NjU4MTIwMzN9.meEWAQIBwIQisYiTXHqYf0oQkMm3u9e3CO7SeuTBbCw' \
+  --header 'Connection: keep-alive' \
+  --header 'User-Agent: EchoapiRuntime/1.1.0'
