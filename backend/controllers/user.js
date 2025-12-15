@@ -1,5 +1,6 @@
 // set up environment variables
 const JWT_SECRET = process.env.JWT_SECRET;
+const HASH_INT = process.env.HASH_INT;
 
 // import middlewares and encryptions
 const bcrypt = require("bcryptjs");
@@ -30,7 +31,7 @@ const add_user = async (req, res) => {
             }
             else {
                 // hash the password
-                const hashedPassword = await bcrypt.hash(password, 10);
+                const hashedPassword = await bcrypt.hash(password, HASH_INT);
 
                 // try creating new user
                 const creation_status = await User.create({ username, password: hashedPassword });
