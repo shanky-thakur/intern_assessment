@@ -1,11 +1,8 @@
 // environment variables set up
-require("dotenv").config();
+const mongodb_uri = process.env.MONGODB_URI;
 
 // import mongoose
 const mongoose = require("mongoose");
-
-// mongo db uri
-const mongodb_uri = process.env.MONGODB_URI;
 
 // connector function for mongoDB
 const connect_database = async () => {

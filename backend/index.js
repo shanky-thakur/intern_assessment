@@ -10,7 +10,7 @@ const express = require('express');
 // importing connecion service of mongoDB
 const connect_database = require('./database/mongo');
 
-// express app setup 
+// express app setup
 const app = express();
 app.use(express.json({ limit: '2mb' }));
 app.use(express.text({ type: 'text/*', limit: '2mb' }));
@@ -24,6 +24,9 @@ app.use(cors({
     exposedHeaders: '*',   // expose all headers
     credentials: true      // allow cookies/auth headers if needed
 }));
+
+// import user routes
+const userRoutes = require("./routes/userRoutes");
 
 // start the server
 let server_status;
@@ -55,3 +58,6 @@ start_server();
 app.get('/', async (req, res) => {
     return res.json({ server_status });
 });
+
+// mounting all user routes under "/user"
+app.use("/user", userRoutes);

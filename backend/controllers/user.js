@@ -1,0 +1,224 @@
+// set up environment variables
+const JWT_SECRET = process.env.JWT_SECRET;
+
+// import middlewares and encryptions
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+// import models
+const User = require("../models/user");
+const Item = require("../models/item");
+
+// -------------------------------------- User Services -------------------------------------------------------------------
+
+// add new user
+const add_user = async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        if (!username) {
+            return res.status(400).json({ message: "bad request - missing username" });
+        }
+        else if (!password) {
+            return res.status(400).json({ message: "bad request - missing password" });
+        }
+        else {
+            const collision = await User.findOne({ username: username });
+
+            if (collision) {
+                return res.status(409).json({ message: "username already taken" });
+            }
+            else {
+                // hash the password
+                const hashedPassword = await bcrypt.hash(password, 10);
+
+                // try creating new user
+                const creation_status = await User.create({ username, password: hashedPassword });
+
+                if (creation_status) {
+                    return res.status(201).json({ message: "user created successfully" });
+                }
+                else {
+                    return res.status(400).json({ message: "user not created" });
+                }
+            }
+        }
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+// user login
+const login_user = async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        if (!username) {
+            return res.status(400).json({ message: "bad request - missing username" });
+        }
+        else if (!password) {
+            return res.status(400).json({ message: "bad request - missing password" });
+        }
+        else {
+            // try finding user
+            const user = await User.findOne({ username });
+
+            // if username is not correct
+            if (!user) {
+                return res.status(401).json({ message: "invalid credentials" });
+            }
+            else {
+                // match password
+                const isMatch = await bcrypt.compare(password, user.password);
+
+                // incorrect password
+                if (!isMatch) {
+                    return res.status(401).json({ message: "invalid credentials" });
+                }
+                else {
+                    // create acess token for user
+                    const access_token = jwt.sign(
+                        {
+                            userId: user._id,
+                            username: username,
+                        },
+                        JWT_SECRET,
+                        {
+                            expiresIn: "30m"
+                        }
+                    );
+
+                    // if token is created
+                    if (!access_token) {
+                        return res.status(400).json({ message: "could not sign you in" });
+                    }
+                    else {
+                        // send token to client
+                        return res.status(200).json({
+                            token: access_token,
+                            message: "login successful"
+                        });
+                    }
+                }
+            }
+        }
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+// -------------------------------------- Item Services --------------------------------------------------------------------
+
+// get all items
+const get_items = async (req, res) => {
+    try {
+        // user - if token is valid
+        const userId = req.user.userId;
+
+        // get all items
+        const items = await Item.find({});
+
+        // return list of items
+        return res.status(200).json({
+            user: userId,
+            count: items.length,
+            items
+        });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+// add item to list
+const add_item = async (req, res) => {
+    try {
+        const { name, company, price, description } = req.body;
+
+        // missing fields
+        if (!name || !company || !price || !description) {
+            return res.status(400).json({ message: "Missing required fields" });
+        }
+
+        // create new item
+        const newItem = await Item.create({
+            name: name,
+            company: company,
+            price: price,
+            description: description
+        });
+
+        // return creation status
+        return res.status(201).json({ message: "Item added successfully", item: newItem });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+// update item
+const update_item = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, price, description } = req.body;
+
+        // if no item id is provided
+        if (!id) {
+            return res.status(400).json({ message: "Item ID is required" });
+        }
+
+        // try updating
+        const updatedItem = await Item.findByIdAndUpdate(
+            id,
+            { name, price, description },
+            { new: true, runValidators: true }
+        );
+
+        // if updates fail
+        if (!updatedItem) {
+            return res.status(404).json({ message: "Item not found" });
+        }
+
+        // return update message
+        return res.status(200).json({ message: "Item updated successfully", item: updatedItem });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+// delete item
+const delete_item = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // if missing item id 
+        if (!id) {
+            return res.status(400).json({ message: "Item ID is required" });
+        }
+
+        // try deleting
+        const deletedItem = await Item.findByIdAndDelete(id);
+
+        // if deletion fails
+        if (!deletedItem) {
+            return res.status(404).json({ message: "Item not found" });
+        }
+
+        // return deleted item
+        return res.status(200).json({ message: "Item deleted successfully", item: deletedItem });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+// export the services
+module.exports = {
+
+    // user services
+    add_user,
+    login_user,
+
+    // item services
+    get_items,
+    add_item,
+    update_item,
+    delete_item
+};
