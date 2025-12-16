@@ -22,11 +22,11 @@ const LogIn = () => {
 
       const data = await res.json();
       setMessage(data.message);
-      navigate('/home', {
-        state: {
-          token: data.token,
-        }
-      });
+
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        navigate('/home');
+      }
     } catch (error) {
       setMessage(error.message);
     }
