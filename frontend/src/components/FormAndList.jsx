@@ -9,6 +9,51 @@ const FormAndList = () => {
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
     const [items, setItems] = useState([]);
+    const [editingItemId, setEditingItemId] = useState(null);
+    const [editedItem, setEditedItem] = useState({
+        name: "",
+        company: "",
+        price: "",
+        description: "",
+    });
+
+    // handling edit 
+    const startEditing = (item) => {
+        setEditingItemId(item._id);
+        setEditedItem({
+            name: item.name,
+            company: item.company,
+            price: item.price,
+            description: item.description,
+        });
+    };
+
+    // api call for edit
+    const updateItem = async (itemId) => {
+        try {
+            const res = await fetch(
+                `http://localhost:3000/user/items/${itemId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${userToken}`,
+                    },
+                    body: JSON.stringify(editedItem),
+                }
+            );
+
+            const data = await res.json();
+            alert(data.message);
+
+            if (res.ok) {
+                setEditingItemId(null);
+                loadItems();
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
 
     // item update
     const fillFormForEdit = (item) => {
@@ -108,68 +153,117 @@ const FormAndList = () => {
                     <p style={{ textAlign: "center" }}>No items found</p>
                 )}
 
-                {items.map((item) => (
-                    <div
-                        key={item._id}
-                        style={{
-                            padding: "15px",
-                            borderRadius: "12px",
-                            background: "#f5f5f5",
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "6px",
-                            position: "relative",
-                        }}
-                    >
-                        {/* buttons container */}
+                {items.map((item) => {
+                    const isEditing = editingItemId === item._id;
+
+                    return (
                         <div
+                            key={item._id}
                             style={{
-                                position: "absolute",
-                                top: "10px",
-                                right: "10px",
+                                padding: "15px",
+                                borderRadius: "12px",
+                                background: "#f5f5f5",
                                 display: "flex",
-                                gap: "8px",
+                                flexDirection: "column",
+                                gap: "6px",
+                                position: "relative",
                             }}
                         >
-                            {/* edit button */}
-                            <button
-                                onClick={() => fillFormForEdit(item)}
+                            {/* buttons */}
+                            <div
                                 style={{
-                                    background: "#4caf50",
-                                    border: "none",
-                                    color: "#fff",
-                                    padding: "6px 10px",
-                                    borderRadius: "6px",
-                                    cursor: "pointer",
-                                    fontSize: "0.9rem",
+                                    position: "absolute",
+                                    top: "10px",
+                                    right: "10px",
+                                    display: "flex",
+                                    gap: "8px",
                                 }}
                             >
-                                Edit
-                            </button>
+                                {isEditing ? (
+                                    <button
+                                        onClick={() => updateItem(item._id)}
+                                        style={{
+                                            background: "#4caf50",
+                                            border: "none",
+                                            color: "#fff",
+                                            padding: "6px 10px",
+                                            borderRadius: "6px",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        OK
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={() => startEditing(item)}
+                                        style={{
+                                            background: "#4caf50",
+                                            border: "none",
+                                            color: "#fff",
+                                            padding: "6px 10px",
+                                            borderRadius: "6px",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        Edit
+                                    </button>
+                                )}
 
-                            {/* delete button */}
-                            <button
-                                onClick={() => deleteItem(item._id)}
-                                style={{
-                                    background: "#ff4d4d",
-                                    border: "none",
-                                    color: "#fff",
-                                    padding: "6px 10px",
-                                    borderRadius: "6px",
-                                    cursor: "pointer",
-                                    fontSize: "0.9rem",
-                                }}
-                            >
-                                Delete
-                            </button>
+                                <button
+                                    onClick={() => deleteItem(item._id)}
+                                    style={{
+                                        background: "#ff4d4d",
+                                        border: "none",
+                                        color: "#fff",
+                                        padding: "6px 10px",
+                                        borderRadius: "6px",
+                                        cursor: "pointer",
+                                    }}
+                                >
+                                    Delete
+                                </button>
+                            </div>
+
+                            {/* fields */}
+                            {isEditing ? (
+                                <>
+                                    <input
+                                        value={editedItem.name}
+                                        onChange={(e) =>
+                                            setEditedItem({ ...editedItem, name: e.target.value })
+                                        }
+                                    />
+                                    <input
+                                        value={editedItem.company}
+                                        onChange={(e) =>
+                                            setEditedItem({ ...editedItem, company: e.target.value })
+                                        }
+                                    />
+                                    <input
+                                        type="number"
+                                        value={editedItem.price}
+                                        onChange={(e) =>
+                                            setEditedItem({ ...editedItem, price: e.target.value })
+                                        }
+                                    />
+                                    <textarea
+                                        value={editedItem.description}
+                                        onChange={(e) =>
+                                            setEditedItem({ ...editedItem, description: e.target.value })
+                                        }
+                                    />
+                                </>
+                            ) : (
+                                <>
+                                    <strong style={{ fontSize: "1.2rem" }}>{item.name}</strong>
+                                    <span>Company: {item.company}</span>
+                                    <span>Price: ₹{item.price}</span>
+                                    <p>{item.description}</p>
+                                </>
+                            )}
                         </div>
-
-                        <strong style={{ fontSize: "1.2rem" }}>{item.name}</strong>
-                        <span>Company: {item.company}</span>
-                        <span>Price: ₹{item.price}</span>
-                        <p>{item.description}</p>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
             {/* item creation form div */}
