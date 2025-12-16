@@ -1,6 +1,6 @@
 // set up environment variables
 const JWT_SECRET = process.env.JWT_SECRET;
-const HASH_INT = process.env.HASH_INT;
+const HASH_INT = Number(process.env.HASH_INT);
 
 // import middlewares and encryptions
 const bcrypt = require("bcryptjs");
