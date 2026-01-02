@@ -89,7 +89,7 @@ curl --request POST \
   --header 'User-Agent: EchoapiRuntime/1.1.0' \
   --data '{
   "name": "harinder",
-  "company" : "HP",
+  "email" : "HP",
   "phone": 9999998888,
   "description": "Gaming Laptop"
 }'
