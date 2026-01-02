@@ -73,7 +73,7 @@ curl --request GET \
   --url http://localhost:3000/user/items \
   --header 'Accept: */*' \
   --header 'Accept-Encoding: gzip, deflate, br' \
-  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTQwMWZiOWVhMzY4ZjUzNjg4M2E3NGQiLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNzY1ODEwMjMzLCJleHAiOjE3NjU4MTIwMzN9.meEWAQIBwIQisYiTXHqYf0oQkMm3u9e3CO7SeuTBbCw' \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTU3YjkzM2M2Njg4YWMzZDc0YWNjOWMiLCJ1c2VybmFtZSI6InNoYW5reSIsImlhdCI6MTc2NzM1Njc0NSwiZXhwIjoxNzY3MzU4NTQ1fQ.E5_EUpcjBCkJ2HyzITq42fxcS1lPMDR3YFwnZjW0b9c' \
   --header 'Connection: keep-alive' \
   --header 'User-Agent: EchoapiRuntime/1.1.0'
 
@@ -83,14 +83,14 @@ curl --request POST \
   --url http://localhost:3000/user/items \
   --header 'Accept: */*' \
   --header 'Accept-Encoding: gzip, deflate, br' \
-  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTQwMWZiOWVhMzY4ZjUzNjg4M2E3NGQiLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNzY1ODEwMjMzLCJleHAiOjE3NjU4MTIwMzN9.meEWAQIBwIQisYiTXHqYf0oQkMm3u9e3CO7SeuTBbCw' \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTU3YjkzM2M2Njg4YWMzZDc0YWNjOWMiLCJ1c2VybmFtZSI6InNoYW5reSIsImlhdCI6MTc2NzM1Njc0NSwiZXhwIjoxNzY3MzU4NTQ1fQ.E5_EUpcjBCkJ2HyzITq42fxcS1lPMDR3YFwnZjW0b9c' \
   --header 'Connection: keep-alive' \
   --header 'Content-Type: application/json' \
   --header 'User-Agent: EchoapiRuntime/1.1.0' \
   --data '{
-  "name": "Laptop",
+  "name": "harinder",
   "company" : "HP",
-  "price": 45000,
+  "phone": 9999998888,
   "description": "Gaming Laptop"
 }'
 
@@ -100,7 +100,7 @@ curl --request PUT \
   --url http://localhost:3000/user/items/69402173ea368f536883a751 \
   --header 'Accept: */*' \
   --header 'Accept-Encoding: gzip, deflate, br' \
-  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTQwMWZiOWVhMzY4ZjUzNjg4M2E3NGQiLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNzY1ODEwMjMzLCJleHAiOjE3NjU4MTIwMzN9.meEWAQIBwIQisYiTXHqYf0oQkMm3u9e3CO7SeuTBbCw' \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTU3YjkzM2M2Njg4YWMzZDc0YWNjOWMiLCJ1c2VybmFtZSI6InNoYW5reSIsImlhdCI6MTc2NzM1Njc0NSwiZXhwIjoxNzY3MzU4NTQ1fQ.E5_EUpcjBCkJ2HyzITq42fxcS1lPMDR3YFwnZjW0b9c' \
   --header 'Connection: keep-alive' \
   --header 'Content-Type: application/json' \
   --header 'User-Agent: EchoapiRuntime/1.1.0' \
@@ -115,6 +115,6 @@ curl --request DELETE \
   --url http://localhost:3000/user/items/6940221dea368f536883a756 \
   --header 'Accept: */*' \
   --header 'Accept-Encoding: gzip, deflate, br' \
-  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTQwMWZiOWVhMzY4ZjUzNjg4M2E3NGQiLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNzY1ODEwMjMzLCJleHAiOjE3NjU4MTIwMzN9.meEWAQIBwIQisYiTXHqYf0oQkMm3u9e3CO7SeuTBbCw' \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTU3YjkzM2M2Njg4YWMzZDc0YWNjOWMiLCJ1c2VybmFtZSI6InNoYW5reSIsImlhdCI6MTc2NzM1Njc0NSwiZXhwIjoxNzY3MzU4NTQ1fQ.E5_EUpcjBCkJ2HyzITq42fxcS1lPMDR3YFwnZjW0b9c' \
   --header 'Connection: keep-alive' \
   --header 'User-Agent: EchoapiRuntime/1.1.0'
