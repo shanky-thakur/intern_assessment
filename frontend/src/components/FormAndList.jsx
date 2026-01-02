@@ -6,14 +6,14 @@ const FormAndList = () => {
 
     const [name, setName] = useState("");
     const [company, setCompany] = useState("");
-    const [price, setPrice] = useState("");
+    const [phone, setPhone] = useState("");
     const [description, setDescription] = useState("");
     const [items, setItems] = useState([]);
     const [editingItemId, setEditingItemId] = useState(null);
     const [editedItem, setEditedItem] = useState({
         name: "",
         company: "",
-        price: "",
+        phone: "",
         description: "",
     });
 
@@ -23,7 +23,7 @@ const FormAndList = () => {
         setEditedItem({
             name: item.name,
             company: item.company,
-            price: item.price,
+            phone: item.phone,
             description: item.description,
         });
     };
@@ -59,7 +59,7 @@ const FormAndList = () => {
     const fillFormForEdit = (item) => {
         setName(item.name);
         setCompany(item.company);
-        setPrice(item.price);
+        setPhone(item.phone);
         setDescription(item.description);
     };
 
@@ -101,7 +101,7 @@ const FormAndList = () => {
         }
     }
 
-    // add item request
+    // add contact request
     const handleAddition = async () => {
         try {
             const res = await fetch("http://localhost:3000/user/items", {
@@ -113,7 +113,7 @@ const FormAndList = () => {
                 body: JSON.stringify({
                     "name": name,
                     "company": company,
-                    "price": Number(price),
+                    "phone": Number(phone),
                     "description": description
                 }),
             });
@@ -241,9 +241,9 @@ const FormAndList = () => {
                                     />
                                     <input
                                         type="number"
-                                        value={editedItem.price}
+                                        value={editedItem.phone}
                                         onChange={(e) =>
-                                            setEditedItem({ ...editedItem, price: e.target.value })
+                                            setEditedItem({ ...editedItem, phone: e.target.value })
                                         }
                                     />
                                     <textarea
@@ -257,7 +257,7 @@ const FormAndList = () => {
                                 <>
                                     <strong style={{ fontSize: "1.2rem" }}>{item.name}</strong>
                                     <span>Company: {item.company}</span>
-                                    <span>Price: ₹{item.price}</span>
+                                    <span>Phone: ₹{item.phone}</span>
                                     <p>{item.description}</p>
                                 </>
                             )}
@@ -270,7 +270,7 @@ const FormAndList = () => {
             <div style={{ width: "30%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly", background: "#cff1f0ff", border: "1px solid #fff", borderRadius: "20px" }}>
                 {/* heading */}
                 <div style={{ width: "100%", height: "10%", display: "flex", justifyContent: "center", alignItems: "center", fontSize: "1.5rem", cursor: "default" }}>
-                    Add Item
+                    Add Contact
                 </div>
 
                 {/* form */}
@@ -278,7 +278,7 @@ const FormAndList = () => {
                     {/* name */}
                     <div style={{ width: "80%", height: "20%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
                         <div style={{ width: "100%", height: "20%", display: "flex", alignItems: "center", cursor: "default" }}>
-                            Name of Product
+                            Name of Contact
                         </div>
                         <textarea value={name} onChange={(e) => setName(e.target.value)} style={{ width: "100%", height: "45%", resize: "none", borderRadius: "10px", fontSize: "1.2rem", justifyItems: "center" }}></textarea>
                     </div>
@@ -286,23 +286,23 @@ const FormAndList = () => {
                     {/* company */}
                     <div style={{ width: "80%", height: "20%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
                         <div style={{ width: "100%", height: "20%", display: "flex", alignItems: "center", cursor: "default" }}>
-                            Company of Product
+                            Company of Contact
                         </div>
                         <textarea value={company} onChange={(e) => setCompany(e.target.value)} style={{ width: "100%", height: "45%", resize: "none", borderRadius: "10px", fontSize: "1.2rem", justifyItems: "center" }}></textarea>
                     </div>
 
-                    {/* price */}
+                    {/* phone */}
                     <div style={{ width: "80%", height: "20%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
                         <div style={{ width: "100%", height: "20%", display: "flex", alignItems: "center", cursor: "default" }}>
-                            Price of Product
+                            PHone of Contact
                         </div>
-                        <textarea value={price} onChange={(e) => setPrice(e.target.value)} style={{ width: "100%", height: "45%", resize: "none", borderRadius: "10px", fontSize: "1.2rem", justifyItems: "center" }}></textarea>
+                        <textarea value={phone} onChange={(e) => setPhone(e.target.value)} style={{ width: "100%", height: "45%", resize: "none", borderRadius: "10px", fontSize: "1.2rem", justifyItems: "center" }}></textarea>
                     </div>
 
                     {/* description */}
                     <div style={{ width: "80%", height: "35%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
                         <div style={{ width: "100%", height: "20%", display: "flex", alignItems: "center", cursor: "default" }}>
-                            Description of Product
+                            Description of Contact
                         </div>
                         <textarea value={description} onChange={(e) => setDescription(e.target.value)} style={{ width: "100%", height: "65%", resize: "none", borderRadius: "10px", fontSize: "1.2rem", justifyItems: "center" }}></textarea>
                     </div>
@@ -310,7 +310,7 @@ const FormAndList = () => {
 
                 {/* button */}
                 <div onClick={handleAddition} style={{ width: "80%", height: "8%", background: "#516af3ff", borderRadius: "20px", color: "#fff", display: "flex", justifyContent: "center", alignItems: "center", fontSize: "1.3rem", cursor: "default" }}>
-                    add item
+                    add contact
                 </div>
             </div>
         </div>
