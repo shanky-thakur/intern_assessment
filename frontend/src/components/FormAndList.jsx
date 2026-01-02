@@ -5,14 +5,14 @@ const FormAndList = () => {
     const userToken = localStorage.getItem("token");
 
     const [name, setName] = useState("");
-    const [company, setCompany] = useState("");
+    const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [description, setDescription] = useState("");
     const [items, setItems] = useState([]);
     const [editingItemId, setEditingItemId] = useState(null);
     const [editedItem, setEditedItem] = useState({
         name: "",
-        company: "",
+        email: "",
         phone: "",
         description: "",
     });
@@ -22,7 +22,7 @@ const FormAndList = () => {
         setEditingItemId(item._id);
         setEditedItem({
             name: item.name,
-            company: item.company,
+            email: item.email,
             phone: item.phone,
             description: item.description,
         });
@@ -58,7 +58,7 @@ const FormAndList = () => {
     // item update
     const fillFormForEdit = (item) => {
         setName(item.name);
-        setCompany(item.company);
+        setEmail(item.email);
         setPhone(item.phone);
         setDescription(item.description);
     };
@@ -112,7 +112,7 @@ const FormAndList = () => {
                 },
                 body: JSON.stringify({
                     "name": name,
-                    "company": company,
+                    "email": email,
                     "phone": Number(phone),
                     "description": description
                 }),
@@ -234,9 +234,9 @@ const FormAndList = () => {
                                         }
                                     />
                                     <input
-                                        value={editedItem.company}
+                                        value={editedItem.email}
                                         onChange={(e) =>
-                                            setEditedItem({ ...editedItem, company: e.target.value })
+                                            setEditedItem({ ...editedItem, email: e.target.value })
                                         }
                                     />
                                     <input
@@ -256,7 +256,7 @@ const FormAndList = () => {
                             ) : (
                                 <>
                                     <strong style={{ fontSize: "1.2rem" }}>{item.name}</strong>
-                                    <span>Company: {item.company}</span>
+                                    <span>Email: {item.email}</span>
                                     <span>Phone: ₹{item.phone}</span>
                                     <p>{item.description}</p>
                                 </>
@@ -283,12 +283,12 @@ const FormAndList = () => {
                         <textarea value={name} onChange={(e) => setName(e.target.value)} style={{ width: "100%", height: "45%", resize: "none", borderRadius: "10px", fontSize: "1.2rem", justifyItems: "center" }}></textarea>
                     </div>
 
-                    {/* company */}
+                    {/* email */}
                     <div style={{ width: "80%", height: "20%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
                         <div style={{ width: "100%", height: "20%", display: "flex", alignItems: "center", cursor: "default" }}>
-                            Company of Contact
+                            email of Contact
                         </div>
-                        <textarea value={company} onChange={(e) => setCompany(e.target.value)} style={{ width: "100%", height: "45%", resize: "none", borderRadius: "10px", fontSize: "1.2rem", justifyItems: "center" }}></textarea>
+                        <textarea value={email} onChange={(e) => setEmail(e.target.value)} style={{ width: "100%", height: "45%", resize: "none", borderRadius: "10px", fontSize: "1.2rem", justifyItems: "center" }}></textarea>
                     </div>
 
                     {/* phone */}
