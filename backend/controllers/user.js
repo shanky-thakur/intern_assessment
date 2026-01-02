@@ -133,18 +133,18 @@ const get_items = async (req, res) => {
 // add item to list
 const add_item = async (req, res) => {
     try {
-        const { name, company, phone, description } = req.body;
+        const { name, email, phone, description } = req.body;
         const userId = req.user.userId; // from auth middleware
 
         // missing fields
-        if (!name || !company || !phone || !description) {
+        if (!name || !email || !phone || !description) {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
         // create new item
         const newItem = await Item.create({
             name,
-            company,
+            email,
             phone,
             description,
             userId

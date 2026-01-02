@@ -7,7 +7,7 @@ const itemSchema = new mongoose.Schema({
         type: String,
         required : true
     },
-    company: {
+    email: {
         type: String,
         required: true
     },
