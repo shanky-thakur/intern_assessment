@@ -294,7 +294,7 @@ const FormAndList = () => {
                     {/* phone */}
                     <div style={{ width: "80%", height: "20%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
                         <div style={{ width: "100%", height: "20%", display: "flex", alignItems: "center", cursor: "default" }}>
-                            PHone of Contact
+                            Phone of Contact
                         </div>
                         <textarea value={phone} onChange={(e) => setPhone(e.target.value)} style={{ width: "100%", height: "45%", resize: "none", borderRadius: "10px", fontSize: "1.2rem", justifyItems: "center" }}></textarea>
                     </div>
