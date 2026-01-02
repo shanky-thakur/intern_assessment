@@ -117,7 +117,7 @@ const get_items = async (req, res) => {
         const userId = req.user.userId;
 
         // get all items
-        const items = await Item.find({});
+        const items = await Item.find({ userId });
 
         // return list of items
         return res.status(200).json({
@@ -133,23 +133,28 @@ const get_items = async (req, res) => {
 // add item to list
 const add_item = async (req, res) => {
     try {
-        const { name, company, price, description } = req.body;
+        const { name, company, phone, description } = req.body;
+        const userId = req.user.userId; // from auth middleware
 
         // missing fields
-        if (!name || !company || !price || !description) {
+        if (!name || !company || !phone || !description) {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
         // create new item
         const newItem = await Item.create({
-            name: name,
-            company: company,
-            price: price,
-            description: description
+            name,
+            company,
+            phone,
+            description,
+            userId
         });
 
         // return creation status
-        return res.status(201).json({ message: "Item added successfully", item: newItem });
+        return res.status(201).json({
+            message: "Item added successfully",
+            item: newItem
+        });
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
@@ -159,27 +164,30 @@ const add_item = async (req, res) => {
 const update_item = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, price, description } = req.body;
+        const { name, phone, description } = req.body;
+        const userId = req.user.userId;
 
         // if no item id is provided
         if (!id) {
             return res.status(400).json({ message: "Item ID is required" });
         }
 
-        // try updating
-        const updatedItem = await Item.findByIdAndUpdate(
-            id,
-            { name, price, description },
+        // update only if item belongs to this user
+        const updatedItem = await Item.findOneAndUpdate(
+            { _id: id, userId },
+            { name, phone, description },
             { new: true, runValidators: true }
         );
 
-        // if updates fail
+        // item not found or not owned by user
         if (!updatedItem) {
-            return res.status(404).json({ message: "Item not found" });
+            return res.status(404).json({ message: "Item not found or unauthorized" });
         }
 
-        // return update message
-        return res.status(200).json({ message: "Item updated successfully", item: updatedItem });
+        return res.status(200).json({
+            message: "Item updated successfully",
+            item: updatedItem
+        });
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
@@ -189,22 +197,31 @@ const update_item = async (req, res) => {
 const delete_item = async (req, res) => {
     try {
         const { id } = req.params;
+        const userId = req.user.userId;
 
         // if missing item id 
         if (!id) {
             return res.status(400).json({ message: "Item ID is required" });
         }
 
-        // try deleting
-        const deletedItem = await Item.findByIdAndDelete(id);
+        // delete only if item belongs to this user
+        const deletedItem = await Item.findOneAndDelete({
+            _id: id,
+            userId
+        });
 
-        // if deletion fails
+        // not found or not owned by user
         if (!deletedItem) {
-            return res.status(404).json({ message: "Item not found" });
+            return res.status(404).json({
+                message: "Item not found or unauthorized"
+            });
         }
 
         // return deleted item
-        return res.status(200).json({ message: "Item deleted successfully", item: deletedItem });
+        return res.status(200).json({
+            message: "Item deleted successfully",
+            item: deletedItem
+        });
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
